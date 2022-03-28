@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>To DO task</title>
+    <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+    <style>
+        th,td {
+            padding: 15px;
+        }
+
+        button{
+            width: 200px;
+            padding: 10px;
+            background-color: darkgray;
+        }
+        body{
+            font-size: 25px;
+        }
+    </style>
+</head>
+<body>
+    <div id="app">
+      
+        <center><h1> To-do List </h1></center>
+        <center> 
+         <table border="0">
+             <tr>
+                 <td>Task to be done</td>
+                 <td> <input id="input" type="text" v-model="newItem" required></td>
+             </tr>
+             <tr>
+                <td>When</td>
+                <td> <input id="date" type="date" v-model="newDate" min='1899-01-01' max='2000-13-13' required></td>
+            </tr>
+            <tr>
+                <td colspan="2"><center> <button v-on:click="addItem">Add Task</button></center> </td>
+            </tr>   
+         </table>
+        </center>
+         <br/><br/>
+      <center>
+         <table border="1">
+             <tr>
+                 <th colspan="3">To-do List</th>
+             </tr>
+             <tr>
+                <th> Task </th>
+                <th> When </th>
+                <th> Action </th>
+            </tr>
+            <tr v-for="item in items">
+                <td > {{ item[0] }} </td>
+                <td> {{ item[1] }} </td>
+                <td> <button v-on:click="removeItem">Delete Task</button> </td>
+            </tr>
+         </table>
+         </center>
+    </div>
+
+    <script>
+
+        var app = new Vue({
+            el: '#app',
+            data() {
+                return{
+                    items:[
+                        [
+                             'milk',
+                            '24.03.2022'
+                        ],
+                        [
+                            'chocolate',
+                            '10.03.2022'
+                        ],
+                    ]
+                }
+             },
+            methods: {
+
+                addItem() {
+                    if(this.newItem.length == 0 && this.newDate.length == 0){
+                        return;
+                    }
+                    else{
+                    this.items.push([this.newItem,this.newDate]),
+                    this.newItem = '';
+                    this.newDate = '';
+                    }
+                },
+                removeItem() {
+                    this.items.pop([this.newItem,this.newDate]),
+                    this.newItem = '';
+                    this.newDate = '';
+                }
+            }
+        })
+    </script>
+    <script>
+        var today = new Date();
+var dd = today.getDate();
+var mm = today.getMonth()+1; //January is 0!
+var yyyy = today.getFullYear();
+ if(dd<10){
+        dd='0'+dd
+    } 
+    if(mm<10){
+        mm='0'+mm
+    } 
+
+today = yyyy+'-'+mm+'-'+dd;
+document.getElementById("date").setAttribute("min", today);    
+    </script>
+</body>
+</html>
